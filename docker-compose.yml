@@ -1,0 +1,111 @@
+# =============================================================================
+# AI Environment — Docker Compose (optional containerized sessions)
+#
+# This is an OPTIONAL alternative to the launch scripts. Instead of opening
+# Windows Terminal tabs, each Claude session runs in its own container with
+# a dedicated working directory and role-specific CLAUDE.md.
+#
+# Usage:
+#   docker compose run --rm orchestrator
+#   docker compose run --rm coder
+#   docker compose run --rm reviewer
+#   docker compose run --rm devops
+#   docker compose run --rm researcher
+#
+# Or start all in detached interactive mode (attach with `docker attach`):
+#   docker compose up -d
+#   docker attach ai-env-orchestrator
+#
+# Note: Claude Code is interactive — attach to a running container or use
+# `docker compose run` for a fresh interactive session.
+# =============================================================================
+
+services:
+  orchestrator:
+    image: node:22-slim
+    container_name: ai-env-orchestrator
+    working_dir: /workspace
+    volumes:
+      - ./workspaces/orchestrator:/workspace
+      - ./roles/orchestrator/CLAUDE.md:/workspace/CLAUDE.md:ro
+      - ${USERPROFILE}/.claude:/root/.claude:ro
+    environment:
+      - ROLE=orchestrator
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    command: ["npx", "-y", "@anthropic-ai/claude-code"]
+    stdin_open: true
+    tty: true
+    networks:
+      - ai-env
+
+  coder:
+    image: node:22-slim
+    container_name: ai-env-coder
+    working_dir: /workspace
+    volumes:
+      - ./workspaces/coder:/workspace
+      - ./roles/coder/CLAUDE.md:/workspace/CLAUDE.md:ro
+      - ${USERPROFILE}/.claude:/root/.claude:ro
+    environment:
+      - ROLE=coder
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    command: ["npx", "-y", "@anthropic-ai/claude-code"]
+    stdin_open: true
+    tty: true
+    networks:
+      - ai-env
+
+  reviewer:
+    image: node:22-slim
+    container_name: ai-env-reviewer
+    working_dir: /workspace
+    volumes:
+      - ./workspaces/reviewer:/workspace
+      - ./roles/reviewer/CLAUDE.md:/workspace/CLAUDE.md:ro
+      - ${USERPROFILE}/.claude:/root/.claude:ro
+    environment:
+      - ROLE=reviewer
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    command: ["npx", "-y", "@anthropic-ai/claude-code"]
+    stdin_open: true
+    tty: true
+    networks:
+      - ai-env
+
+  devops:
+    image: node:22-slim
+    container_name: ai-env-devops
+    working_dir: /workspace
+    volumes:
+      - ./workspaces/devops:/workspace
+      - ./roles/devops/CLAUDE.md:/workspace/CLAUDE.md:ro
+      - ${USERPROFILE}/.claude:/root/.claude:ro
+    environment:
+      - ROLE=devops
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    command: ["npx", "-y", "@anthropic-ai/claude-code"]
+    stdin_open: true
+    tty: true
+    networks:
+      - ai-env
+
+  researcher:
+    image: node:22-slim
+    container_name: ai-env-researcher
+    working_dir: /workspace
+    volumes:
+      - ./workspaces/researcher:/workspace
+      - ./roles/researcher/CLAUDE.md:/workspace/CLAUDE.md:ro
+      - ${USERPROFILE}/.claude:/root/.claude:ro
+    environment:
+      - ROLE=researcher
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    command: ["npx", "-y", "@anthropic-ai/claude-code"]
+    stdin_open: true
+    tty: true
+    networks:
+      - ai-env
+
+networks:
+  ai-env:
+    driver: bridge

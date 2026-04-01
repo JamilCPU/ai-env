@@ -1,0 +1,15 @@
+# Environment secrets
+.env
+
+# Workspace state (generated at runtime — not committed)
+workspaces/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+
+# Logs
+*.log
