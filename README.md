@@ -19,14 +19,14 @@ Each role starts with a `CLAUDE.md` in its workspace directory that tells Claude
 ### Option 1: Bash (from WSL or Git Bash)
 
 ```bash
-cd /mnt/f/Dev/ai-env
+cd path/to/ai-env
 chmod +x launch.sh
 ./launch.sh
 ```
 
 ### Option 2: PowerShell (from Windows Terminal)
 
-```powershell
+cd path\to\ai-env
 cd F:\Dev\ai-env
 .\launch.ps1
 ```
@@ -97,16 +97,6 @@ docker attach ai-env-orchestrator
 
 Each container mounts its workspace volume and the role's `CLAUDE.md`.
 
-## Lab Context
-
-This environment is configured for:
-
-- **PC**: Windows 11 at `192.0.2.99`, WSL + Docker Desktop, projects in `F:/Dev/`
-- **Pi1**: `192.0.2.101` — RPi 5, Gitea, OpenClaw, SIGNAL AI News
-- **Pi2**: `192.0.2.102` — Raspberry Pi
-- **Pi3**: `192.0.2.103` — Raspberry Pi
-- SSH to Pis: `wsl ssh user@192.168.1.10X` (SSH key lives in WSL, not Windows)
-
 ## Project Structure
 
 ```
@@ -130,3 +120,7 @@ ai-env/
     ├── devops/
     └── researcher/
 ```
+
+## Status
+
+An early experiment in running several role-specific Claude Code sessions side by side. It has been superseded by other tooling and the repository is kept for reference only. The launchers expect Windows Terminal (`wt.exe`) and Claude Code on the PATH (inside WSL for `launch.sh`). The Docker Compose variant needs `ANTHROPIC_API_KEY` set in a local `.env`; it was never the main path.
