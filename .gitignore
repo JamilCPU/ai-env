@@ -13,3 +13,21 @@ node_modules/
 
 # Logs
 *.log
+.env.*
+!.env.example
+*.keys
+*.db
+*.sqlite
+*.sqlite3
+venv/
+.venv/
+__pycache__/
+*.pyc
+bin/
+obj/
+dist/
+build/
+.vs/
+.idea/
+*.class
+target/
